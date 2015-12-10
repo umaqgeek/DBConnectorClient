@@ -28,6 +28,12 @@ public class RMIConn {
             
             Registry myRegistry = LocateRegistry.getRegistry(DBConn.getHost(), DBConn.getPort_rmi());
             impl = (Message) myRegistry.lookup(localRMIFlag);
+            
+            System.out.println("RMI Connected.");
+            System.out.println("Sending dummy message ...");
+            impl.sendMessage("DB Connect");
+            System.out.println("Message Sent.");
+            
             status = true;
 
         } catch (Exception e) {

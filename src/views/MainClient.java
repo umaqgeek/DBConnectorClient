@@ -19,7 +19,10 @@ import oms.rmi.server.Message;
  */
 public class MainClient {
     
+    private String host;
+    
     public MainClient(String host) {
+        this.host = host;
         DBConn.setHost(host);
         RMIConn.startRMI(host, DBConn.getPort_rmi());
     }
@@ -27,8 +30,12 @@ public class MainClient {
     public boolean setQuery(String query, String data[]) {
         boolean status = false;
         try {
+            if (RMIConn.getImpl() == null) {
+                new MainClient(this.host);
+            }
             status = RMIConn.getImpl().setQuery(query, data);
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return status;
     }
@@ -36,8 +43,12 @@ public class MainClient {
     public ArrayList<ArrayList<String>> getQuery(String query, String data[]) {
         ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
         try {
+            if (RMIConn.getImpl() == null) {
+                new MainClient(this.host);
+            }
             output = RMIConn.getImpl().getQuery(query, data);
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return output;
     }
